@@ -54,7 +54,7 @@ const displayPhones = (phones, isShowAll) => {
             <h2 class="card-title">${phone.phone_name}</h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div class="card-actions justify-center">
-            <button onclick="handleShowDetails('${phone.slug};')" class="btn btn-primary">Show Details</button>
+            <button onclick="handleShowDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
             </div>
         </div>
     `;
@@ -108,27 +108,33 @@ const handleShowAll = () => {
 // handle show details button for every single phone
 
 const handleShowDetails = async (id) => {
-  console.log(id);
-
-  //   const res = await fetch(
-  //     `https://openapi.programming-hero.com/api/phone/apple_iphone_13_pro_max-11089`
-  //   );
+  //   console.log(id);
 
   const res = await fetch(
     `https://openapi.programming-hero.com/api/phone/${id}`
   );
   const data = await res.json();
   const phone = data.data;
-  console.log(data);
-  //   showPhoneDetails(phone);
+  showPhoneDetails(phone);
 };
 
 // show phone details
 
 const showPhoneDetails = (phone) => {
-  // console.log(phone)
+  console.log(phone);
+
   const phoneName = document.getElementById("phone-name");
   phoneName.innerText = phone.name;
+  const showDetailsContainer = document.getElementById(
+    "show-details-container"
+  );
+  showDetailsContainer.innerHTML = `
+    <img src="${phone.image}"/>
+    <p><span class="font-bold">Id: </span>${phone?.slug}</p>
+    <p><span class="font-bold">Storage: </span>${phone?.mainFeatures?.storage}</p>
+    <p><span class="font-bold">Bluetooth: </span>${phone?.others?.Bluetooth}</p>
+    `;
+
   show_details_modal.showModal();
 };
 
